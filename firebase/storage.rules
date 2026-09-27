@@ -1,0 +1,10 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Deny everything by default; open up per path as features are added.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

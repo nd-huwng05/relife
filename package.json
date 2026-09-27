@@ -1,0 +1,23 @@
+{
+  "name": "relife",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "mobile": "pnpm --filter @relife/mobile start",
+    "android": "pnpm --filter @relife/mobile android",
+    "ios": "pnpm --filter @relife/mobile ios",
+    "functions:build": "pnpm --filter @relife/functions build",
+    "emulators": "firebase emulators:start",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.6.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.6.0"
+}

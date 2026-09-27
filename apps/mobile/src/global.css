@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "uniwind";
+@import "@relife/ui/theme.css";
+
+/* Tailwind scans src/ automatically; shared packages must be listed. */
+@source "../../../packages/ui/src";
