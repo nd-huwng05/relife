@@ -1,0 +1,40 @@
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# dependencies
+node_modules/
+
+# build output
+dist/
+functions/lib/
+*.tsbuildinfo
+
+# Expo
+.expo/
+
+# env
+.env
+.env*.local
+
+# Firebase
+.firebase/
+*-debug.log
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+CLAUDE.md
+AGENTS.md
+.claude
+.vscode
+seed
