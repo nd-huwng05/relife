@@ -1,0 +1,30 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="393" height="852" viewBox="0 0 393 852" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Map" clip-path="url(#clip0_0_62)">
+<rect width="393" height="852" fill="#EAE6DA"/>
+<rect id="Rectangle" x="20" y="30" width="120" height="90" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_2" x="170" y="20" width="150" height="110" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_3" x="30" y="170" width="90" height="140" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_4" x="150" y="180" width="120" height="80" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_5" x="300" y="170" width="110" height="150" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_6" x="160" y="300" width="160" height="120" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_7" x="20" y="350" width="110" height="120" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_8" x="340" y="40" width="90" height="100" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_9" x="20" y="500" width="160" height="110" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_10" x="210" y="460" width="120" height="140" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_11" x="350" y="360" width="90" height="130" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_12" x="40" y="640" width="140" height="120" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_13" x="220" y="640" width="170" height="110" rx="10" fill="#DFDACB"/>
+<rect id="Rectangle_14" x="150" y="300" width="160" height="120" rx="14" fill="#CFDCC4"/>
+<ellipse id="Ellipse" cx="45" cy="620" rx="85" ry="60" fill="#C9D9DE"/>
+<rect id="Rectangle_15" y="140" width="433" height="14" fill="white"/>
+<rect id="Rectangle_16" y="440" width="433" height="12" transform="rotate(4 0 440)" fill="white"/>
+<rect id="Rectangle_17" x="130" y="-20" width="14" height="892" fill="white"/>
+<rect id="Rectangle_18" x="285" y="-20" width="12" height="892" transform="rotate(-6 285 -20)" fill="white"/>
+<rect id="Rectangle_19" y="610" width="393" height="10" transform="rotate(-3 0 610)" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_0_62">
+<rect width="393" height="852" fill="white"/>
+</clipPath>
+</defs>
+</svg>
