@@ -1,23 +1,19 @@
-import { USER_ROLE, type UserRole } from "@relife/shared";
+import type { UserRole } from "@relife/shared";
+
+import { useSessionState } from "../store";
 
 export interface Session {
   isLoading: boolean;
   userId: string | null;
   role: UserRole | null;
-}
-
-const DEV_ROLES = Object.values(USER_ROLE) as string[];
-
-function devRole(): UserRole | null {
-  const role = process.env.EXPO_PUBLIC_DEV_ROLE;
-  return role && DEV_ROLES.includes(role) ? (role as UserRole) : null;
+  isGuest: boolean;
 }
 
 /**
- * Current user session. Until Firebase Auth is wired up (S1), this reads
- * EXPO_PUBLIC_DEV_ROLE so each role's screens can be opened during development.
+ * Current user session. Starts from EXPO_PUBLIC_DEV_ROLE (so each role can be opened
+ * directly during development) and then follows the fake sign-in flow in features/auth.
  */
 export function useSession(): Session {
-  const role = devRole();
-  return { isLoading: false, userId: role ? "dev-user" : null, role };
+  const s = useSessionState();
+  return { isLoading: false, userId: s.userId, role: s.role, isGuest: s.isGuest };
 }

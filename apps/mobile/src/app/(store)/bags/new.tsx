@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { CreateBagScreen } from "@/features/bags";
 
-export default function NewBagScreen() {
-  return <PlaceholderScreen title="New bag" sprint="S2 (FS2)" />;
+export default function Route() {
+  return <CreateBagScreen />;
 }

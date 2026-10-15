@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { MyOrdersScreen } from "@/features/pickup";
 
-export default function CustomerOrdersScreen() {
-  return <PlaceholderScreen title="My orders" sprint="FC4" />;
+export default function Route() {
+  return <MyOrdersScreen />;
 }

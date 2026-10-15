@@ -1,8 +1,8 @@
 import { useLocalSearchParams } from "expo-router";
 
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { BagDetailScreen } from "@/features/bags";
 
-export default function BagDetailScreen() {
+export default function Route() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  return <PlaceholderScreen title={`Bag ${id}`} sprint="FC3" />;
+  return <BagDetailScreen bagId={id} />;
 }

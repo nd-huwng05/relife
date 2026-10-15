@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { StoreHomeScreen } from "@/features/store-admin";
 
-export default function StoreTodayScreen() {
-  return <PlaceholderScreen title="Today" sprint="S2 (FS2)" />;
+export default function Route() {
+  return <StoreHomeScreen />;
 }

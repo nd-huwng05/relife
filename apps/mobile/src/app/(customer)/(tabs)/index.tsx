@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { DiscoverScreen } from "@/features/discover";
 
-export default function DiscoverScreen() {
-  return <PlaceholderScreen title="Discover" sprint="S3 (FC2)" />;
+export default function Route() {
+  return <DiscoverScreen />;
 }

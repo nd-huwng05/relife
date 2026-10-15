@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { SignInOptionsScreen } from "@/features/auth";
 
-export default function LoginScreen() {
-  return <PlaceholderScreen title="Sign in with Google" sprint="S1 (FC1)" />;
+export default function Route() {
+  return <SignInOptionsScreen />;
 }

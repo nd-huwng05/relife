@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { SplashScreen } from "@/features/auth";
 
-export default function WelcomeScreen() {
-  return <PlaceholderScreen title="Welcome to Relife" sprint="S1 (FC1)" />;
+export default function Route() {
+  return <SplashScreen />;
 }

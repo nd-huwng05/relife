@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { PhoneEntryScreen } from "@/features/auth";
 
-export default function PhoneScreen() {
-  return <PlaceholderScreen title="Phone number" sprint="S1 (FC1)" />;
+export default function Route() {
+  return <PhoneEntryScreen />;
 }

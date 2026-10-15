@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { AccountScreen } from "@/features/profile";
 
-export default function ProfileScreen() {
-  return <PlaceholderScreen title="Account" sprint="FC6" />;
+export default function Route() {
+  return <AccountScreen />;
 }

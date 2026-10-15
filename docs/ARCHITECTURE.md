@@ -14,21 +14,35 @@ functions/                  Cloud Functions. The only place that writes money, s
 firebase/                   Security rules and indexes.
 ```
 
-This is the empty skeleton (sprint S0). Files marked "added from Sx" are filled in
-the sprint that needs them, not earlier.
+Every screen of the Figma file (A01–A32, B01–B24, C01–C08) is built on top of a
+**mock API** (see [MOCK_API.md](MOCK_API.md)). Each sprint replaces the mock calls in
+one feature's `api.ts` with Firebase; screens and hooks do not change.
 
 ## Routes (`apps/mobile/src/app`)
 
 | Group | Who | Notes |
 |---|---|---|
-| `(auth)` | Signed out | welcome, login, phone, otp |
-| `(customer)` | Customers | `(tabs)`: Discover, Orders, Account; stack: `bag/[id]`, `store/[id]` |
-| `(store)` | Store owners | `(tabs)`: Today, Scan, Orders; modal: `bags/new` |
-| `(charity)` | Charities | S9 |
+| `(auth)` | Signed out | `welcome` (A01), `onboarding` (A02), `location` (A03), `login` (A04), `phone` (A05), `otp` (A06), `profile-setup` (A07) |
+| `(customer)` | Customers | `(tabs)`: index (A08), map (A11), orders (A21), saved (A26), profile (A27). Stack: `filter` (A09), `search` (A10), `bag/[id]` (A12), `store/[id]` (A13), `checkout/*` (A14–A19), `pickup/[orderId]` (A20), `order/[id]` (A22–A24), `notifications` (A25), `account/*` (A28–A32) |
+| `(store)` | Store owners | `status` (B01–B03) until the application is approved, then `(tabs)`: index (B04), bags (B05), scan (opens `scanner`), revenue (B17), settings (B20). Stack: `bags/*` (B06–B09), `today-orders/*` (B10, B11, B16), `scanner/*` (B12–B15), `payouts/*` (B18, B19), `settings/notifications` (B21), `reviews` (B22), `staff` (B23), `training` (B24), `register` |
+| `(charity)` | Charities | `(tabs)`: index (C03), claims (C06), report (C07), area (C08). Stack: `surplus/[id]` (C04), `claim/[id]` (C05), `org-register` (C01), `verification` (C02). Phase 2, S9 |
 
 The root `_layout.tsx` uses `Stack.Protected` to show only the group for the
-current role. Until auth lands (S1), set `EXPO_PUBLIC_DEV_ROLE` in
-`apps/mobile/.env.local` to `customer`, `store` or `charity`.
+current role. The role comes from `sessionStore` in `features/auth`: it starts from
+`EXPO_PUBLIC_DEV_ROLE` (`customer`, `store`, `charity` or empty for the sign-in flow)
+and then follows the fake sign-in. Replace it with Firebase Auth in S1.
+
+## App components (`apps/mobile/src/components`)
+
+`Screen`, `ScreenHeader`, `BottomBar`, `Sheet` (bottom sheet for transparent modal
+routes), `FloatingTabBar` (the Deep Forest pill from Figma), `Photo`, `CopyRow`,
+`RelifeMap` (real map with react-native-maps: Apple Maps on iOS, works in Expo Go;
+`RelifeMap.web.tsx` falls back to the Figma illustration in `FakeMap`) and
+`lib/location.ts` (`useUserLocation`, permission request, distance).
+
+Route URLs must be unique across role groups (e.g. the store's order list is
+`/today-orders`, the charity settings tab is `/area`), otherwise the router can resolve
+a link to a protected group of another role.
 
 ## Feature folders
 
@@ -56,10 +70,21 @@ features/<name>/
 
 | Folder / file | Contains now | Grows into |
 |---|---|---|
-| `constants/` | `USER_ROLE` | order, bag and store statuses, collection names |
-| `money.ts` | `Vnd`, `formatVnd()`, `isValidVnd()` | |
-| `schemas/` | empty | Zod input schemas (e.g. `bagSchema` in S2) |
-| `types/` | empty | Firestore document shapes from Notion BE1 |
+| `constants/` | `USER_ROLE`, order/bag/store/payout/claim statuses | collection names |
+| `money.ts` | `Vnd`, `formatVnd()` ("59.000đ"), `formatVndShort()`, `discountPercent()` | |
+| `time.ts` | Vietnam-time formatting (`formatWindow`, `minutesUntil`, `vnTimeOn`, …) | |
+| `schemas/` | Zod inputs: phone/OTP/profile, `bagSchema`, `createOrderSchema`, `cancelOrderSchema`, `reviewSchema`, `payoutAccountSchema`, … | |
+| `types/` | Document shapes from Notion BE1: `Store`, `Bag`, `Order`, `UserProfile`, `Review`, `Payout`, charity types | |
+
+## UI package (`packages/ui/src`)
+
+Tokens from the Figma Foundations page (`colors`, `typography`, `spacing`, `radius`,
+`shadows`), the Simple Design System icons as `<Icon name="bag" />` (paths exported from
+Figma in `icons/paths.ts`) and base components: `Button`, `IconButton`, `Chip`,
+`SelectChip`, `StatusBadge`, `TextField`, `CodeInput`, `Toggle`, `Slider`, `Card`,
+`ListRow`, `KeyValueRow`, `Price`, `Stepper`, `Avatar`, `SegmentedControl`,
+`ProgressBar`, `StepBar`, `PageDots`, `RadioRow`, `CheckboxRow`, `StarRating`,
+`Timeline`, `HeroIcon`, `InfoNote`, `SectionHeader`, `Overline`, `StateView`, `LoadingView`.
 
 ## Rules
 

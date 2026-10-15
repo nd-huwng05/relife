@@ -38,3 +38,7 @@ AGENTS.md
 .claude
 .vscode
 seed
+
+# Firebase native config files (never commit)
+google-services.json
+GoogleService-Info.plist

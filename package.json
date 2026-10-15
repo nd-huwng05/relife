@@ -6,6 +6,10 @@
   "type": "module",
   "scripts": {
     "mobile": "pnpm --filter @relife/mobile start",
+    "mobile:clear": "pnpm --filter @relife/mobile start --clear",
+    "mobile:tunnel": "pnpm --filter @relife/mobile start --tunnel",
+    "mobile:web": "pnpm --filter @relife/mobile web",
+    "mobile:doctor": "pnpm --filter @relife/mobile doctor",
     "android": "pnpm --filter @relife/mobile android",
     "ios": "pnpm --filter @relife/mobile ios",
     "functions:build": "pnpm --filter @relife/functions build",

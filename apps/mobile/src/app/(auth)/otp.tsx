@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "@/components/PlaceholderScreen";
+import { OtpScreen } from "@/features/auth";
 
-export default function OtpScreen() {
-  return <PlaceholderScreen title="Enter OTP" sprint="S1 (FC1)" />;
+export default function Route() {
+  return <OtpScreen />;
 }

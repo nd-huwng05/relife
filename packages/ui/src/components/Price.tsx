@@ -1,28 +1,42 @@
 import { formatVnd, type Vnd } from "@relife/shared";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 
-import { Text, type TextProps } from "./Text";
+import type { ColorName } from "../theme/colors";
+import { Text } from "./Text";
 
-export interface PriceProps extends Omit<TextProps, "children" | "variant"> {
+const SIZES = {
+  lg: { amount: "numberLarge", original: "body", gap: 10 },
+  md: { amount: "price", original: "small", gap: 8 },
+  sm: { amount: "priceSmall", original: "caption", gap: 6 },
+} as const;
+
+export interface PriceProps {
   amount: Vnd;
-  /** Show the original value crossed out next to the price. */
+  /** Original value shown crossed out after the price. */
   originalValue?: Vnd;
+  size?: keyof typeof SIZES;
+  color?: ColorName;
+  style?: StyleProp<ViewStyle>;
 }
 
-export function Price({ amount, originalValue, ...rest }: PriceProps) {
+/** Price in Inter Bold with the original value struck through: "59.000đ 180.000đ". */
+export function Price({ amount, originalValue, size = "md", color = "forest", style }: PriceProps) {
+  const s = SIZES[size];
   return (
-    <Text variant="price" {...rest}>
-      {formatVnd(amount)}
+    <View style={[styles.row, { gap: s.gap }, style]}>
+      <Text variant={s.amount} color={color}>
+        {formatVnd(amount)}
+      </Text>
       {originalValue !== undefined && (
-        <Text variant="caption" color="textSecondary" style={styles.original}>
-          {"  "}
+        <Text variant={s.original} color="stone" style={styles.original}>
           {formatVnd(originalValue)}
         </Text>
       )}
-    </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  row: { flexDirection: "row", alignItems: "baseline" },
   original: { textDecorationLine: "line-through" },
 });

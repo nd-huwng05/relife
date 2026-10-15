@@ -8,9 +8,13 @@
     "scheme": "relife",
     "userInterfaceStyle": "automatic",
     "ios": {
+      "bundleIdentifier": "vn.relife.app",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "icon": "./assets/expo.icon"
     },
     "android": {
+      "package": "vn.relife.app",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -25,6 +29,27 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Relife dùng vị trí để hiện túi bánh gần bạn và khoảng cách tới từng tiệm."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Relife dùng camera để quét mã nhận bánh của khách.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Relife dùng thư viện ảnh để bạn chọn ảnh túi bánh, giấy tờ và ảnh đánh giá.",
+          "cameraPermission": "Relife dùng camera để chụp ảnh túi bánh.",
+          "microphonePermission": false
+        }
+      ],
       [
         "expo-splash-screen",
         {

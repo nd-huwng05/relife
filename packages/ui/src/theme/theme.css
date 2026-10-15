@@ -1,30 +1,43 @@
 /*
- * Tailwind theme for Relife. Keep in sync with colors.ts, typography.ts and spacing.ts
- * (those are used from JS, e.g. navigation options and StyleSheet).
+ * Tailwind theme for Relife, from the Figma Foundations page. Keep in sync with
+ * colors.ts, typography.ts and spacing.ts (those are used from JS and StyleSheet).
  */
 @theme {
-  --color-primary: #E4572E;
-  --color-primary-pressed: #C8461F;
-  --color-on-primary: #FFFFFF;
+  --color-deep-forest: #12241F;
+  --color-forest: #1F3A32;
+  --color-champagne: #C9A96E;
+  --color-gold-soft: #EFE3CB;
+  --color-linen: #F6F1E9;
+  --color-card: #FFFDF9;
+  --color-ink: #15201C;
+  --color-stone: #7B756B;
+  --color-line: #E4DCCE;
+  --color-terracotta: #B5543C;
+  --color-success: #2F7D5B;
+  --color-amber: #B7822B;
+  --color-cream: #F3ECDF;
 
-  --color-background: #FFFAF5;
-  --color-surface: #FFFFFF;
-  --color-border: #E8E1DA;
-
-  --color-text: #1F1B16;
-  --color-text-secondary: #6B625A;
-  --color-text-disabled: #B4ACA4;
-
-  --color-success: #2E9E5B;
-  --color-warning: #E0A100;
-  --color-danger: #D64545;
+  --color-primary: #1F3A32;
+  --color-primary-pressed: #12241F;
+  --color-on-primary: #F3ECDF;
+  --color-background: #F6F1E9;
+  --color-surface: #FFFDF9;
+  --color-border: #E4DCCE;
+  --color-text: #15201C;
+  --color-text-secondary: #7B756B;
+  --color-text-disabled: #A9A298;
+  --color-warning: #B7822B;
+  --color-danger: #B5543C;
 
   --font-heading: "PlayfairDisplay_700Bold";
   --font-body: "Inter_400Regular";
   --font-body-medium: "Inter_500Medium";
   --font-body-semibold: "Inter_600SemiBold";
+  --font-number: "Inter_700Bold";
 
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-xxl: 24px;
 }
