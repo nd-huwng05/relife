@@ -11,5 +11,5 @@ export { ScanInvalidScreen, ScanValidScreen } from "./components/store/ScanResul
 export { ScannerScreen } from "./components/store/ScannerScreen";
 export { StoreOrderDetailScreen } from "./components/store/StoreOrderDetailScreen";
 export { StoreOrderRow, TodayOrdersScreen } from "./components/store/TodayOrdersScreen";
-export { useTodayOrders } from "./hooks/usePickup";
+export { useActivePickup, useTodayOrders } from "./hooks/usePickup";
 export { maskCode, orderStatusView } from "./orderStatus";

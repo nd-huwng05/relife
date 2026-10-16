@@ -34,3 +34,30 @@ export function activeFilterCount(f: BagFilters): number {
   if (f.sort !== DEFAULT_BAG_FILTERS.sort) n++;
   return n;
 }
+
+// Session choices for the shared states: browse the live area from outside it (E05) and use
+// a manually chosen area when location is off (E06). They reset when the app restarts.
+let browseLiveArea = false;
+let manualArea = false;
+const sessionListeners = new Set<() => void>();
+const sessionSnapshot = () => `${browseLiveArea}|${manualArea}`;
+
+export const areaChoice = {
+  browseLiveArea() {
+    browseLiveArea = true;
+    sessionListeners.forEach((l) => l());
+  },
+  chooseManualArea() {
+    manualArea = true;
+    sessionListeners.forEach((l) => l());
+  },
+  subscribe(l: () => void) {
+    sessionListeners.add(l);
+    return () => sessionListeners.delete(l);
+  },
+};
+
+export function useAreaChoice() {
+  useSyncExternalStore(areaChoice.subscribe, sessionSnapshot, sessionSnapshot);
+  return { browseLiveArea, manualArea };
+}

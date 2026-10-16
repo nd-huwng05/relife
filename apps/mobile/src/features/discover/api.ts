@@ -47,6 +47,8 @@ export interface DiscoverFeed {
   closingSoon: Bag[];
   nearby: Bag[];
   savedBagIds: string[];
+  /** Earliest time the nearby stores usually post, for the empty state (E02), e.g. "18:30". */
+  usualPostTime: string | null;
 }
 
 export function getDiscoverFeed(filters: BagFilters): Promise<DiscoverFeed> {
@@ -60,6 +62,7 @@ export function getDiscoverFeed(filters: BagFilters): Promise<DiscoverFeed> {
       closingSoon: sortBags(bags.filter((b) => new Date(b.pickupEnd).getTime() < ninetyMinutes), "endingSoon"),
       nearby: sortBags(bags, filters.sort),
       savedBagIds: db.customer.savedBagIds,
+      usualPostTime: db.stores.map((s) => s.usualPostTime).sort()[0] ?? null,
     };
   });
 }

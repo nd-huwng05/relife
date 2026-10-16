@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from "@relife/shared";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import * as api from "../api";
@@ -34,4 +35,16 @@ export const useRedeemPickup = () =>
 
 export function useTodayOrders() {
   return useQuery({ queryKey: pickupKeys.today, queryFn: api.getTodayOrders, refetchInterval: 20_000 });
+}
+
+/**
+ * The paid order waiting to be collected, from the cached order list. It stays available when
+ * the network drops or during maintenance (E03, E07), because the pickup code is signed and
+ * the store checks it offline.
+ */
+export function useActivePickup() {
+  const orders = useMyOrders();
+  const order = orders.data?.find((o) => o.status === ORDER_STATUS.PAID);
+  if (!order) return null;
+  return { orderId: order.id, storeName: order.storeName, code: `${order.pickupCode.slice(0, 3)} ${order.pickupCode.slice(3)}` };
 }

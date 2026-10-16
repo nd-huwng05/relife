@@ -50,6 +50,9 @@ export const palette = {
   /** Storage chips on charity cards (C03, C04). */
   coolSoft: "#E3ECEE",
   cool: "#2E5B66",
+  /** Loading placeholders (E01): base and the light sweep. */
+  skeleton: "#E9E2D5",
+  skeletonHighlight: "#F3EEE5",
 } as const;
 
 /** Semantic names used by components. Screens should prefer these. */

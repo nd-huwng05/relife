@@ -64,3 +64,12 @@ Do it one feature at a time, in the sprint that owns it:
 3. Set `MOCK_CLOCK.enabled = false` in `lib/mock/config.ts` once no feature uses mock times.
 4. When nothing imports `@/lib/mock` any more, delete the folder and the photos in
    `assets/images/mock/`.
+
+## Shared states (E03–E08)
+
+`apps/mobile/src/lib/devStates.ts` holds dev switches read by the mock: `offline` makes every
+`mockRequest` throw `ApiError("unavailable")`, `maintenance` and `forceUpdate` change what
+`features/status/api.ts` returns, `outsideCoverage` and `locationDenied` change what
+`lib/location.ts` reports. Toggle them on `/dev-states` (Account → "Trạng thái hệ thống (dev)").
+All switches are off on launch.
+

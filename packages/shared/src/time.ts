@@ -29,6 +29,12 @@ export function formatTime(iso: IsoDateTime): string {
   return `${pad(p.hours)}:${pad(p.minutes)}`;
 }
 
+/** "2026-10-14T12:00:04Z" → "19:00:04", for logs and webhook attempts. */
+export function formatTimeSeconds(iso: IsoDateTime): string {
+  const d = new Date(new Date(iso).getTime() + VN_OFFSET_MS);
+  return `${formatTime(iso)}:${pad(d.getUTCSeconds())}`;
+}
+
 /** → "19:00 – 20:30" */
 export function formatWindow(start: IsoDateTime, end: IsoDateTime): string {
   return `${formatTime(start)} – ${formatTime(end)}`;
@@ -97,4 +103,15 @@ export function greeting(now: Date = new Date()): string {
   if (h < 11) return "Chào buổi sáng";
   if (h < 18) return "Chào buổi chiều";
   return "Chào buổi tối";
+}
+
+/** UTC ISO → "2026-09-27T17:30", the Vietnam wall-clock value an `<input type="datetime-local">` uses. */
+export function toVnDateTimeLocal(iso: IsoDateTime): string {
+  return new Date(new Date(iso).getTime() + VN_OFFSET_MS).toISOString().slice(0, 16);
+}
+
+/** "2026-09-27T17:30" in Vietnam time → UTC ISO string, or null when the value is not a date. */
+export function fromVnDateTimeLocal(value: string): IsoDateTime | null {
+  const ms = Date.parse(`${value}:00Z`);
+  return Number.isNaN(ms) ? null : new Date(ms - VN_OFFSET_MS).toISOString();
 }

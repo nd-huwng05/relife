@@ -56,6 +56,12 @@ export function AccountScreen() {
         <ListRow icon="help" iconVariant="soft" title="Trợ giúp và câu hỏi" onPress={() => router.push("/account/help")} />
         <Divider />
         <ListRow icon="file" iconVariant="soft" title="Điều khoản và quyền riêng tư" onPress={() => router.push("/account/terms")} />
+        {__DEV__ && (
+          <>
+            <Divider />
+            <ListRow icon="settings" iconVariant="soft" title="Trạng thái hệ thống (dev)" subtitle="Thử E01–E08" onPress={() => router.push("/dev-states")} />
+          </>
+        )}
       </Card>
 
       <View style={styles.actions}>

@@ -1,3 +1,5 @@
+import { devStates } from "../devStates";
+
 import { MOCK_LATENCY_MS } from "./config";
 
 /** Same shape as the HttpsError a Cloud Function throws, so screens handle both alike. */
@@ -10,7 +12,9 @@ export class ApiError extends Error {
       | "resource-exhausted"
       | "permission-denied"
       | "deadline-exceeded"
-      | "unauthenticated",
+      | "unauthenticated"
+      | "unavailable"
+      | "internal",
     message: string,
   ) {
     super(message);
@@ -26,6 +30,8 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  */
 export async function mockRequest<T>(handler: () => T, latencyMs = MOCK_LATENCY_MS): Promise<T> {
   await sleep(latencyMs);
+  // Dev switch for E03: behave like a dropped connection.
+  if (devStates.get().offline) throw new ApiError("unavailable", "Không kết nối được tới Relife. Kiểm tra mạng rồi thử lại.");
   const result = handler();
   return result === undefined ? result : (JSON.parse(JSON.stringify(result)) as T);
 }

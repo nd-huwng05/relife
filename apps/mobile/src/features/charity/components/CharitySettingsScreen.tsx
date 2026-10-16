@@ -93,6 +93,12 @@ function SettingsForm({ initial }: { initial: NonNullable<ReturnType<typeof useC
         <Divider />
         <ListRow icon="users" title="Trạng thái xác minh" onPress={() => router.push("/verification")} />
         <Divider />
+        {__DEV__ && (
+          <>
+            <ListRow icon="settings" title="Trạng thái hệ thống (dev)" subtitle="Thử E01–E08" onPress={() => router.push("/dev-states")} />
+            <Divider />
+          </>
+        )}
         <ListRow icon="logout" title="Đăng xuất" onPress={() => sessionStore.signOut()} />
       </Card>
     </Screen>

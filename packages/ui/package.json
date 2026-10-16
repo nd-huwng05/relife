@@ -19,6 +19,7 @@
   },
   "exports": {
     ".": "./src/index.ts",
-    "./theme.css": "./src/theme/theme.css"
+    "./theme.css": "./src/theme/theme.css",
+    "./icon-paths": "./src/icons/paths.ts"
   }
 }

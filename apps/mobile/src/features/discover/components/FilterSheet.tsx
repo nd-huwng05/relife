@@ -1,4 +1,4 @@
-import { BAG_CATEGORY, DEFAULT_BAG_FILTERS, type BagCategory, type BagFilters } from "@relife/shared";
+import { DEFAULT_BAG_FILTERS, type BagFilters } from "@relife/shared";
 import { Button, IconButton, RadioRow, SelectChip, Slider, Text, colors, fontFamily } from "@relife/ui";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -7,22 +7,8 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Sheet } from "@/components/Sheet";
 
 import { useBagCount } from "../hooks/useDiscover";
+import { CATEGORIES, SLOTS } from "../labels";
 import { filterStore } from "../store";
-
-const SLOTS: { key: NonNullable<BagFilters["pickupSlot"]>; label: string }[] = [
-  { key: "now", label: "Ngay bây giờ" },
-  { key: "before18", label: "Trước 18:00" },
-  { key: "18to20", label: "18:00 – 20:00" },
-  { key: "after20", label: "Sau 20:00" },
-];
-
-const CATEGORIES: { key: BagCategory; label: string }[] = [
-  { key: BAG_CATEGORY.BREAD, label: "Bánh mì" },
-  { key: BAG_CATEGORY.PASTRY, label: "Bánh ngọt" },
-  { key: BAG_CATEGORY.CAKE, label: "Bánh kem" },
-  { key: BAG_CATEGORY.MEAL, label: "Đồ mặn" },
-  { key: BAG_CATEGORY.MIXED, label: "Món chay" },
-];
 
 const PRICES: { key: NonNullable<BagFilters["priceRange"]>; label: string }[] = [
   { key: "under40", label: "Dưới 40k" },

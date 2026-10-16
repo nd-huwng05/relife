@@ -7,10 +7,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useTabBarTop } from "@/components/FloatingTabBar";
 import { RelifeMap, type RelifeMapHandle } from "@/components/RelifeMap";
+import { Screen } from "@/components/Screen";
 import { BagRow } from "@/features/bags";
+import { LocationDeniedScreen, OfflineState } from "@/features/status";
 import { DEFAULT_CENTER, distanceKm, useUserLocation } from "@/lib/location";
 
 import { useMapBags } from "../hooks/useDiscover";
+import { areaChoice, useAreaChoice } from "../store";
 
 /** Beyond this distance the demo stores are out of view, so the map stays on them. */
 const NEARBY_KM = 30;
@@ -21,6 +24,7 @@ export function MapScreen() {
   const tabBarTop = useTabBarTop();
   const query = useMapBags();
   const location = useUserLocation();
+  const choice = useAreaChoice();
   const map = useRef<RelifeMapHandle>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -34,7 +38,22 @@ export function MapScreen() {
     else await location.request();
   };
 
-  if (query.isPending) return <LoadingView />;
+  // E06: location was refused. Offer a manual area instead of asking again.
+  if (location.status === "denied" && !choice.manualArea) return <LocationDeniedScreen onPickArea={() => areaChoice.chooseManualArea()} />;
+  if (query.isError && !query.data) {
+    return (
+      <Screen withTabBar>
+        <OfflineState onRetry={() => query.refetch()} retrying={query.isFetching} />
+      </Screen>
+    );
+  }
+  if (query.isPending) {
+    return (
+      <Screen withTabBar>
+        <LoadingView variant="detail" label="Đang tải bản đồ" onRetry={() => query.refetch()} />
+      </Screen>
+    );
+  }
 
   return (
     <View style={styles.root}>
@@ -59,7 +78,7 @@ export function MapScreen() {
           </Pressable>
           <IconButton name="home" size={52} iconSize={23} variant="solid" onPress={() => router.navigate("/(customer)/(tabs)")} accessibilityLabel="Về Khám phá" />
         </View>
-        {location.position && !userNearby && (
+        {((location.position && !userNearby) || (location.status === "denied" && choice.manualArea)) && (
           <Chip label="Đang xem tiệm mẫu ở Cầu Giấy, Hà Nội" tone="outline" icon="info" style={styles.notice} />
         )}
       </View>

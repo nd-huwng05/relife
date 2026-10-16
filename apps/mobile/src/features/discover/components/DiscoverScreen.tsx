@@ -5,10 +5,15 @@ import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 
 import { Screen } from "@/components/Screen";
 import { BagCard, ClosingSoonCard, useToggleSaveBag } from "@/features/bags";
+import { OfflineBanner, OfflineState, OutsideCoverageScreen, SystemErrorScreen } from "@/features/status";
+import { isNetworkError } from "@/lib/connectivity";
+import { ApiError } from "@/lib/mock";
 import { errorMessage } from "@/lib/queryClient";
 
+import { useCoverage } from "../hooks/useCoverage";
 import { useDiscoverFeed } from "../hooks/useDiscover";
-import { activeFilterCount, useFilters } from "../store";
+import { activeFilterCount, areaChoice, useFilters } from "../store";
+import { EmptyResults } from "./EmptyResults";
 
 const FILTER_BUTTON = require("@/assets/images/ui/filter-button.svg");
 
@@ -18,9 +23,23 @@ export function DiscoverScreen() {
   const feed = useDiscoverFeed(filters);
   const toggleSave = useToggleSaveBag();
   const filterCount = activeFilterCount(filters);
+  const coverage = useCoverage();
+
+  if (coverage.blocked) {
+    return <OutsideCoverageScreen city={coverage.city} serviceCity={coverage.serviceCity} onBrowse={() => areaChoice.browseLiveArea()} />;
+  }
+  // Unexpected failures get the full E04 screen; known API errors stay inline below.
+  if (feed.isError && !feed.data && !isNetworkError(feed.error) && !(feed.error instanceof ApiError)) {
+    return <SystemErrorScreen onRetry={() => feed.refetch()} />;
+  }
 
   return (
     <Screen withTabBar gap={0} refreshing={feed.isRefetching} onRefresh={() => feed.refetch()}>
+      {feed.data && (
+        <View style={styles.banner}>
+          <OfflineBanner />
+        </View>
+      )}
       <View style={styles.top}>
         <View style={styles.location}>
           <Text style={styles.locLabel}>Vị trí của bạn</Text>
@@ -66,10 +85,20 @@ export function DiscoverScreen() {
         </Pressable>
       )}
 
-      {feed.isPending ? (
-        <LoadingView />
-      ) : feed.isError ? (
-        <StateView icon="wifioff" title="Chưa tải được túi bánh" message={errorMessage(feed.error)} actionLabel="Thử lại" onAction={() => feed.refetch()} />
+      {feed.isPending && !feed.isError ? (
+        <View style={styles.section}>
+          <LoadingView variant="feed" label="Đang tải túi bánh" onRetry={() => feed.refetch()} />
+        </View>
+      ) : feed.isError && !feed.data ? (
+        isNetworkError(feed.error) ? (
+          <OfflineState onRetry={() => feed.refetch()} retrying={feed.isFetching} />
+        ) : (
+          <StateView icon="alert" title="Chưa tải được túi bánh" message={errorMessage(feed.error)} actionLabel="Thử lại" onAction={() => feed.refetch()} />
+        )
+      ) : feed.data.nearby.length === 0 ? (
+        <View style={styles.section}>
+          <EmptyResults filters={filters} usualPostTime={feed.data.usualPostTime} />
+        </View>
       ) : (
         <>
           {feed.data.closingSoon.length > 0 && (
@@ -89,19 +118,15 @@ export function DiscoverScreen() {
           )}
           <View style={styles.nearby}>
             <SectionHeader title="Gần bạn" actionLabel="Xem tất cả" onAction={() => router.push("/map")} />
-            {feed.data.nearby.length === 0 ? (
-              <StateView icon="search" title="Không có túi phù hợp" message="Thử nới khoảng cách hoặc bỏ bớt bộ lọc." actionLabel="Đổi bộ lọc" onAction={() => router.push("/filter")} />
-            ) : (
-              feed.data.nearby.map((b) => (
-                <BagCard
-                  key={b.id}
-                  bag={b}
-                  saved={feed.data.savedBagIds.includes(b.id)}
-                  onPress={() => router.push(`/bag/${b.id}`)}
-                  onToggleSave={() => toggleSave.mutate(b.id)}
-                />
-              ))
-            )}
+            {feed.data.nearby.map((b) => (
+              <BagCard
+                key={b.id}
+                bag={b}
+                saved={feed.data.savedBagIds.includes(b.id)}
+                onPress={() => router.push(`/bag/${b.id}`)}
+                onToggleSave={() => toggleSave.mutate(b.id)}
+              />
+            ))}
           </View>
         </>
       )}
@@ -110,6 +135,7 @@ export function DiscoverScreen() {
 }
 
 const styles = StyleSheet.create({
+  banner: { marginBottom: 12 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: -4 },
   location: { gap: 3 },
   locLabel: { fontFamily: fontFamily.body, fontSize: 12, color: colors.stone },

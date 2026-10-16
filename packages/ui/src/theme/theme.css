@@ -17,6 +17,23 @@
   --color-amber: #B7822B;
   --color-cream: #F3ECDF;
 
+  --color-white: #FFFFFF;
+  --color-sand: #A9A298;
+  --color-sage: #A7B5AF;
+  --color-sage-light: #B9C4BE;
+  --color-mist: #D6CFC1;
+  --color-success-soft: #DDEFE5;
+  --color-amber-soft: #F7EBD3;
+  --color-terracotta-soft: #F6E3DC;
+  --color-stone-soft: #ECE4D6;
+  --color-forest-card: #1B3029;
+  --color-forest-line: #2C4A40;
+  --color-mint: #9FD4B8;
+  --color-cool-soft: #E3ECEE;
+  --color-cool: #2E5B66;
+  --color-skeleton: #E9E2D5;
+  --color-skeleton-highlight: #F3EEE5;
+
   --color-primary: #1F3A32;
   --color-primary-pressed: #12241F;
   --color-on-primary: #F3ECDF;

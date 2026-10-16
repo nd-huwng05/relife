@@ -2,10 +2,15 @@ import type { GeoPoint } from "@relife/shared";
 import * as Location from "expo-location";
 import { useCallback, useEffect, useState } from "react";
 
+import { devStates, useDevStates } from "./devStates";
+
 /** Cầu Giấy, Hà Nội: where the demo stores are, used when the user's location is unknown. */
 export const DEFAULT_CENTER: GeoPoint = { lat: 21.0346, lng: 105.79 };
 
 export type LocationStatus = "unknown" | "granted" | "denied";
+
+/** Hải Châu, Đà Nẵng: the position the E05 dev switch pretends the user is at. */
+const DEV_OUTSIDE_POSITION: GeoPoint = { lat: 16.0544, lng: 108.2022 };
 
 /** Asks for foreground location permission (A03). Returns true when granted. */
 export async function requestLocationPermission(): Promise<boolean> {
@@ -24,6 +29,9 @@ export function distanceKm(a: GeoPoint, b: GeoPoint): number {
 }
 
 async function readLocation(): Promise<{ status: LocationStatus; position: GeoPoint | null }> {
+  const dev = devStates.get();
+  if (dev.locationDenied) return { status: "denied", position: null };
+  if (dev.outsideCoverage) return { status: "granted", position: DEV_OUTSIDE_POSITION };
   const perm = await Location.getForegroundPermissionsAsync();
   if (perm.status !== Location.PermissionStatus.GRANTED) {
     return { status: perm.status === Location.PermissionStatus.DENIED ? "denied" : "unknown", position: null };
@@ -40,6 +48,7 @@ async function readLocation(): Promise<{ status: LocationStatus; position: GeoPo
 export function useUserLocation() {
   const [status, setStatus] = useState<LocationStatus>("unknown");
   const [position, setPosition] = useState<GeoPoint | null>(null);
+  const dev = useDevStates();
 
   useEffect(() => {
     let alive = true;
@@ -53,10 +62,10 @@ export function useUserLocation() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [dev.locationDenied, dev.outsideCoverage]);
 
   const request = useCallback(async () => {
-    const granted = await requestLocationPermission();
+    const granted = devStates.get().locationDenied ? false : await requestLocationPermission();
     if (!granted) {
       setStatus("denied");
       return false;
@@ -68,4 +77,15 @@ export function useUserLocation() {
   }, []);
 
   return { status, position, request };
+}
+
+/** City or province of a position, e.g. "Đà Nẵng", or null when it cannot be looked up. */
+export async function cityOf(position: GeoPoint): Promise<string | null> {
+  if (devStates.get().outsideCoverage) return "Đà Nẵng";
+  try {
+    const [address] = await Location.reverseGeocodeAsync({ latitude: position.lat, longitude: position.lng });
+    return address?.city ?? address?.region ?? address?.subregion ?? null;
+  } catch {
+    return null;
+  }
 }

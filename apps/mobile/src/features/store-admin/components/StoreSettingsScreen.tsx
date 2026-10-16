@@ -48,6 +48,12 @@ export function StoreSettingsScreen() {
       </Card>
 
       <Card padding={15}>
+        {__DEV__ && (
+          <>
+            <ListRow icon="settings" title="Trạng thái hệ thống (dev)" subtitle="Thử E01–E08" onPress={() => router.push("/dev-states")} />
+            <Divider />
+          </>
+        )}
         <ListRow icon="logout" title="Đăng xuất" onPress={() => sessionStore.signOut()} />
       </Card>
     </Screen>
